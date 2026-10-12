@@ -534,7 +534,12 @@ class DiscourseURL extends EmberObject {
     transition._discourse_original_url = path;
 
     const promise = transition.promise || transition;
-    return promise.then(() => this.jumpToElement(elementId));
+    return promise.then(() => {
+      if (elementId) {
+        this.replaceState(`#${elementId}`);
+      }
+      this.jumpToElement(elementId);
+    });
   }
 
   jumpToElement(elementId) {
