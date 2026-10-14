@@ -177,7 +177,7 @@ importers:
         version: 1.2.7
       source-map-js:
         specifier: ^1.2.1
-        version: 1.2.1
+        version: 1.2.2
       strip-test-selectors:
         specifier: ^0.1.0
         version: 0.1.0
@@ -637,7 +637,7 @@ importers:
         version: 22.1.0
       source-map-js:
         specifier: ^1.2.1
-        version: 1.2.1
+        version: 1.2.2
       testem:
         specifier: ^3.20.2
         version: 3.20.2(@babel/core@7.29.7)(ejs@3.1.10)(handlebars@4.7.9)(underscore@1.13.8)
@@ -703,7 +703,7 @@ importers:
         version: 1.62.1
       source-map-js:
         specifier: ^1.2.1
-        version: 1.2.1
+        version: 1.2.2
 
   frontend/pretty-text:
     dependencies:
@@ -7197,10 +7197,6 @@ packages:
     resolution: {integrity: sha512-ssk1HG7whF8N/T1IsNAQrtHG5Cbdi0rAgRJZXYBr9hF5xaHnBNzUx/W6LcthEW7FhOwvZssbESZuO+GxssqAyA==}
     engines: {node: '>=20'}
     hasBin: true
-
-  source-map-js@1.2.1:
-    resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
-    engines: {node: '>=0.10.0'}
 
   source-map-js@1.2.2:
     resolution: {integrity: sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==}
@@ -15591,8 +15587,6 @@ snapshots:
       semver: 7.8.5
       sort-object-keys: 2.1.0
       tinyglobby: 0.2.17
-
-  source-map-js@1.2.1: {}
 
   source-map-js@1.2.2: {}
 
