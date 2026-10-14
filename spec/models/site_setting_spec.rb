@@ -1,6 +1,55 @@
 # frozen_string_literal: true
 
 RSpec.describe SiteSetting do
+  describe "dsa_community_rules" do
+    let(:rule) { { ground: "Terms, section 3", explanation: "Personal attacks are prohibited." } }
+
+    it "defaults to an empty rule list" do
+      expect(JSON.parse(SiteSetting.dsa_community_rules)).to eq([])
+    end
+
+    it "accepts contractual grounds and explanations at the API character limits" do
+      rule[:ground] = "é" * 500
+      rule[:explanation] = "é" * 2000
+
+      SiteSetting.dsa_community_rules = [rule].to_json
+
+      expect(JSON.parse(SiteSetting.dsa_community_rules)).to eq([rule.stringify_keys])
+    end
+
+    it "rejects contractual grounds longer than 500 characters" do
+      rule[:ground] = "a" * 501
+
+      expect { SiteSetting.dsa_community_rules = [rule].to_json }.to raise_error(
+        Discourse::InvalidParameters,
+      )
+    end
+
+    it "rejects explanations longer than 2000 characters" do
+      rule[:explanation] = "a" * 2001
+
+      expect { SiteSetting.dsa_community_rules = [rule].to_json }.to raise_error(
+        Discourse::InvalidParameters,
+      )
+    end
+
+    it "rejects a blank contractual ground" do
+      rule[:ground] = " "
+
+      expect { SiteSetting.dsa_community_rules = [rule].to_json }.to raise_error(
+        Discourse::InvalidParameters,
+      )
+    end
+
+    it "rejects a missing explanation" do
+      rule.delete(:explanation)
+
+      expect { SiteSetting.dsa_community_rules = [rule].to_json }.to raise_error(
+        Discourse::InvalidParameters,
+      )
+    end
+  end
+
   describe "topic_title_length" do
     it "returns a range of min/max topic title length" do
       expect(SiteSetting.topic_title_length).to eq(

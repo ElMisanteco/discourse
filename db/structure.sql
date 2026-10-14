@@ -5950,7 +5950,9 @@ CREATE TABLE public.dsa_statement_of_records (
     status integer DEFAULT 0 NOT NULL,
     payload jsonb NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    classified_by_id bigint,
+    classified_at timestamp(6) without time zone
 );
 
 
@@ -25842,6 +25844,7 @@ ALTER TABLE ONLY public.ad_plugin_house_ads_groups
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261013062937'),
 ('20261013010026'),
 ('20261013010022'),
 ('20261012021959'),

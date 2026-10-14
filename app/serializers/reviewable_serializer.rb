@@ -26,6 +26,16 @@ class ReviewableSerializer < ApplicationSerializer
 
   attribute :status_for_database, key: :status
 
+  attribute :dsa_classification
+
+  def dsa_classification
+    DsaClassificationSerializer.new(dsa_statements, scope:, root: false).as_json
+  end
+
+  def include_dsa_classification?
+    scope.is_staff? && DsaStatementOfRecord.classification_enabled? && dsa_statements.present?
+  end
+
   has_one :target_created_by, root: "users"
   has_one :created_by, serializer: UserWithCustomFieldsSerializer, root: "users"
   has_one :target_deleted_by, serializer: BasicUserSerializer, root: "users"
@@ -206,5 +216,14 @@ class ReviewableSerializer < ApplicationSerializer
     return if user.blank?
 
     FlaggedUserSerializer.new(user, scope: scope, root: false)
+  end
+
+  private
+
+  def dsa_statements
+    @dsa_statements ||=
+      object.dsa_statement_of_records.to_a.sort_by do |statement|
+        [statement.created_at, statement.id]
+      end
   end
 end

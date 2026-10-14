@@ -34,6 +34,7 @@ class Reviewable < ActiveRecord::Base
   has_many :reviewable_histories, dependent: :destroy
   has_many :reviewable_scores, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :reviewable_notes, -> { order(created_at: :asc) }, dependent: :destroy
+  has_many :dsa_statement_of_records
 
   enum :status, { pending: 0, approved: 1, rejected: 2, ignored: 3, deleted: 4 }
 
@@ -561,6 +562,10 @@ class Reviewable < ActiveRecord::Base
           )
           .includes(reviewable_scores: { user: :user_stat, meta_topic: :posts })
           .includes(reviewable_notes: { user: :user_stat })
+
+      if user.staff? && DsaStatementOfRecord.classification_enabled?
+        result = result.includes(:dsa_statement_of_records)
+      end
     end
     return result if user.admin?
 
